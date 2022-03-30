@@ -7,6 +7,8 @@ const materialSchema = mongoose.Schema(
     },
     volumeType: {
       type: String,
+      enum: ["кг", "шт", "л"],
+      default: "шт",
     },
     price: {
       type: Number,
@@ -16,11 +18,10 @@ const materialSchema = mongoose.Schema(
     },
     direction: [
       {
-        volume: {
-          type: String,
-          enum: ["кг", "шт", "л"],
-          default: "шт"
-        },
+        volume:
+          {
+            type: Number,
+          },
         date: {
           type: Date,
         },
