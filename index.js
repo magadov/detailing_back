@@ -16,7 +16,7 @@ app.use(cors());
 app.use(morgan("dev"));
 // app.use('/uploads', express.static(path.resolve(__dirname, 'uploads')));
 
-// app.use(require('./routes'));
+app.use(require('./routes'));
 
 const connectAndStartServer = async () => {
   try{
@@ -29,7 +29,7 @@ const connectAndStartServer = async () => {
       console.log(chalk.blue(`Успешно соединились. Порт ${port}`));
     })
   }catch (e) {
-    console.log(chalk.bgRed.white('Ошибка при подключении: ${e.toString()}'))
+    console.log(chalk.bgRed.white(`Ошибка при подключении: ${e.toString()}`))
   }
 };
 
