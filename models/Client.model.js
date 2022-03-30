@@ -1,17 +1,17 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const clientSchema = mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
   },
-  surname: {
+  lastName: {
     type: String,
   },
-  phoneNumber: {
-    type: Number
+  phone: {
+    type: Number,
   },
-  VIN: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Car'
-  }
-})
+});
+
+const Client = mongoose.model("Client", clientSchema);
+
+module.exports = Client;
