@@ -32,7 +32,20 @@ module.exports.materialsController = {
         }catch (e) {
             res.json(e.message);
         }
+    },
+    addingMaterial: async (req, res) => {
+        const {volume} = req.body
+        try {
+            const increment = await Material.findByIdAndUpdate(req.params.id, {
+                $push: {direction: {volume, date: Date()}},
+            }, {new: true})
+            res.json(increment)
+        } catch (e) {
+            res.json("error" + e.toString())
+        }
     }
 }
+
+
 
 

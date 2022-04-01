@@ -24,7 +24,6 @@ module.exports.carsController = {
       res.json({error: e.message})
     }
   },
-
   deleteCar: async(req, res) => {
     try{
       await Car.findByIdAndDelete(req.params.id)
