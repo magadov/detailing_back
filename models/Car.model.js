@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const carSchema = mongoose.Schema({
-  VIN: {
+  vin: {
     type: String,
     required: true,
   },
@@ -25,10 +25,10 @@ const carSchema = mongoose.Schema({
   upgradeDate: {
     type: Date,
     default: null,
-    client: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Client",
-    },
+  },
+  client: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Client",
   },
 });
 

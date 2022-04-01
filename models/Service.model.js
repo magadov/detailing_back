@@ -13,14 +13,16 @@ const serviceSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Client",
   },
-  cost: [
+  cost:
     {
       type: Number,
       default: 0,
     },
-  ],
   note: {
     type: String
+  },
+  date: {
+    type: Date
   }
 });
 
