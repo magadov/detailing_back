@@ -19,7 +19,6 @@ const carSchema = mongoose.Schema({
       yearOfRelease: {
         type: Date
       }
-
     },
   ],
   upgradeDate: {

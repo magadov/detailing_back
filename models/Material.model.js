@@ -15,6 +15,7 @@ const materialSchema = mongoose.Schema(
     },
     left: {
       type: Number,
+        default: 0
     },
     direction: [
       {
