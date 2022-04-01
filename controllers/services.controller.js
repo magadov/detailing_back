@@ -15,5 +15,22 @@ module.exports.servicesController = {
     } catch (e) {
       res.json({ error: e.message })
     }
-  }
+  },
+  getServices: async(req, res) => {
+    try{
+      const service = await Service.find();
+      res.json(service);
+    }catch (e) {
+      res.json({ error: e.message})
+    }
+  },
+  removeServices: async(req, res) =>{
+    const {id} = req.params;
+    try{
+      await Service.findByIdAndDelete(id)
+        return res.json("Услуга успешно удалена")
+    }catch (e) {
+      res.json({error: e.message})
+    }
+  },
 }
