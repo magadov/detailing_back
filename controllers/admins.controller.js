@@ -1,6 +1,6 @@
 const Admin = require("../models/Admin.model");
-const bcrypt = require("bcrypt")
-const jwt = require('jsonwebtoken')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports.adminsController = {
   // addAdmin: async (req, res) => {
@@ -20,7 +20,7 @@ module.exports.adminsController = {
 
       return res.json(admin);
     } catch (e) {
-      return res.json({ error: e.message});
+      return res.json({ error: e.message });
     }
   },
   login: async (req, res) => {
@@ -46,7 +46,7 @@ module.exports.adminsController = {
       });
       res.json({ token });
     } catch (e) {
-      return res.json({ error: e.message});
+      return res.json({ error: e.message });
     }
   },
   removeAdmin: async (req, res) => {
@@ -56,7 +56,7 @@ module.exports.adminsController = {
 
       return res.json(deleted);
     } catch (e) {
-      return res.json({ error: e.message});
+      return res.json({ error: e.message });
     }
   },
 };
