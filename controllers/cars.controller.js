@@ -24,13 +24,12 @@ module.exports.carsController = {
       res.json({ error: e.message });
     }
   },
-
-  deleteCar: async (req, res) => {
-    try {
-      await Car.findByIdAndDelete(req.params.id);
-      res.json("Машина успешно удалена");
-    } catch (e) {
-      res.json({ error: e.message });
+  deleteCar: async(req, res) => {
+    try{
+      await Car.findByIdAndDelete(req.params.id)
+      res.json('Машина успешно удалена')
+    }catch (e) {
+      res.json({error: e.message})
     }
   },
 
