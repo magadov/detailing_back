@@ -34,20 +34,60 @@ module.exports.servicesController = {
     }
   },
   updateServices: async (req, res) => {
-    const { name, car, client, cost } = req.body;
-    const { id } = req.params.id;
+    const { name, car, client, cost, createdAt } = req.body;
+    const { id } = req.params;
     try {
-      await Service.findByIdAndUpdate(
+      const service = await Service.findByIdAndUpdate(
         id,
         {
           name,
           car,
           client,
           cost,
+          createdAt
         },
         { new: true }
       );
-      return res.json({ message: "Услуга редактирована успешно." });
+      return res.json({ service });
+    } catch (e) {
+      return res.json({ error: e.message });
+    }
+  },
+  getServicesByDate: async (req, res) => {
+    try {
+      const service = await Service.aggregate([
+          {
+            $group: {
+              _id: {
+                month: {$month: '$createdAt'}
+              },
+              totalPrice: {
+                $sum: '$cost'
+              },
+              name: {$addToSet: '$name'}
+            }
+          }
+        ]
+      );
+      return res.json({ service });
+    } catch (e) {
+      return res.json({ error: e.message });
+    }
+  },
+  getSelectionByDate: async (req, res) => {
+    try {
+        const service = await Service.aggregate([
+            {
+              $match: {
+                createdDate: {
+                  $gte: ISODate("2022-04"),
+                  $lt: ISODate('2022-04')
+                }
+              }
+            }
+          ]
+        );
+      return res.json({ service });
     } catch (e) {
       return res.json({ error: e.message });
     }
