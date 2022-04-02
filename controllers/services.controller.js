@@ -1,6 +1,5 @@
 const Service = require("../models/Service.model");
 const jwt = require("jsonwebtoken");
-const { compareSync } = require("bcrypt");
 
 module.exports.servicesController = {
   addServices: async (req, res) => {
@@ -11,9 +10,8 @@ module.exports.servicesController = {
         car,
         client,
         cost,
-        date: new Date(),
       });
-      res.json(service);
+      res.json({ service });
     } catch (e) {
       res.json({ error: e.message });
     }
@@ -21,7 +19,7 @@ module.exports.servicesController = {
   getServices: async (req, res) => {
     try {
       const service = await Service.find();
-      res.json(service);
+      res.json({ service });
     } catch (e) {
       res.json({ error: e.message });
     }
@@ -30,26 +28,26 @@ module.exports.servicesController = {
     const { id } = req.params;
     try {
       await Service.findByIdAndDelete(id);
-      return res.json("Услуга успешно удалена");
+      return res.json({ message: "Услуга успешно удалена" });
     } catch (e) {
       res.json({ error: e.message });
     }
   },
   updateServices: async (req, res) => {
-    const { name, car, client, cost, date } = req.body;
+    const { name, car, client, cost } = req.body;
+    const { id } = req.params.id;
     try {
       await Service.findByIdAndUpdate(
-        req.params.id,
+        id,
         {
           name,
           car,
           client,
           cost,
-          date,
         },
         { new: true }
       );
-      res.json("Услуга редактирована успешно.");
+      res.json({ message: "Услуга редактирована успешно." });
     } catch (e) {
       res.json({ error: e.message });
     }
