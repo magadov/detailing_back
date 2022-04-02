@@ -11,9 +11,9 @@ module.exports.clientsController = {
     }
   },
   addClient: async (req, res) => {
-    const { firstName, lastName, number } = req.body;
+    const { firstName, lastName, phone } = req.body;
     try {
-      const adding = await Client.create({ firstName, lastName, number });
+      const adding = await Client.create({ firstName, lastName, phone });
 
       return res.json({ adding });
     } catch (e) {
@@ -23,7 +23,7 @@ module.exports.clientsController = {
   deleteClient: async (req, res) => {
     const { id } = req.params;
     try {
-      const deleting = await Client.findByIdAndRemove({ id });
+      const deleting = await Client.findByIdAndRemove(id);
 
       return res.json({ deleting });
     } catch (e) {
