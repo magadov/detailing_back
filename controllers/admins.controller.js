@@ -9,16 +9,16 @@ module.exports.adminsController = {
   //     const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS));
   //     const admin = await Admin.create({login, password: hash})
   //
-  //     return res.json(admin)
+  //     return res.json({admin})
   //   }catch (e) {
-  //     return res.status(400).json({error: 'Ошибка пр регистрации: ' + e.toString()})
+  //     return res.status(400).json({error: 'Ошибка при регистрации: ' + e.toString()})
   //   }
   // },
   getAdmin: async (req, res) => {
     try {
       const admin = await Admin.find();
 
-      return res.json(admin);
+      return res.json({admin});
     } catch (e) {
       return res.json({ error: e.message });
     }
@@ -54,7 +54,7 @@ module.exports.adminsController = {
     try {
       const deleted = await Admin.findByIdAndRemove(id);
 
-      return res.json(deleted);
+      return res.json({deleted});
     } catch (e) {
       return res.json({ error: e.message });
     }
