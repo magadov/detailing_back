@@ -11,17 +11,17 @@ module.exports.servicesController = {
         client,
         cost,
       });
-      res.json({ service });
+      return res.json({ service });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
   getServices: async (req, res) => {
     try {
       const service = await Service.find();
-      res.json({ service });
+      return res.json({ service });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
   removeServices: async (req, res) => {
@@ -30,7 +30,7 @@ module.exports.servicesController = {
       await Service.findByIdAndDelete(id);
       return res.json({ message: "Услуга успешно удалена" });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
   updateServices: async (req, res) => {
@@ -47,9 +47,9 @@ module.exports.servicesController = {
         },
         { new: true }
       );
-      res.json({ message: "Услуга редактирована успешно." });
+      return res.json({ message: "Услуга редактирована успешно." });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
 };
