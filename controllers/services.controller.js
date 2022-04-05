@@ -11,26 +11,46 @@ module.exports.servicesController = {
         client,
         cost,
       });
-      res.json(service);
+
+      return res.json({ service });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
   getServices: async (req, res) => {
     try {
       const service = await Service.find();
-      res.json(service);
+      return res.json({ service });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
     }
   },
   removeServices: async (req, res) => {
     const { id } = req.params;
     try {
       await Service.findByIdAndDelete(id);
-      return res.json("Услуга успешно удалена");
+      return res.json({ message: "Услуга успешно удалена" });
     } catch (e) {
-      res.json({ error: e.message });
+      return res.json({ error: e.message });
+    }
+  },
+  updateServices: async (req, res) => {
+    const { name, car, client, cost } = req.body;
+    const { id } = req.params.id;
+    try {
+      await Service.findByIdAndUpdate(
+        id,
+        {
+          name,
+          car,
+          client,
+          cost,
+        },
+        { new: true }
+      );
+      return res.json({ message: "Услуга редактирована успешно." });
+    } catch (e) {
+      return res.json({ error: e.message });
     }
   },
 };
