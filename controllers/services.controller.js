@@ -11,6 +11,7 @@ module.exports.servicesController = {
         client,
         cost,
       });
+
       return res.json({ service });
     } catch (e) {
       return res.json({ error: e.message });

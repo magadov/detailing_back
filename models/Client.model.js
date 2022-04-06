@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
 
-const clientSchema = new mongoose.Schema(
+const clientSchema = mongoose.Schema(
   {
     firstName: {
       type: String,
+      required: true,
     },
     lastName: {
       type: String,
+      required: true,
     },
     phone: {
       type: Number,
+      required: true,
     },
   },
   { timestamps: true }
