@@ -55,20 +55,12 @@ module.exports.servicesController = {
   },
   getServicesByDate: async (req, res) => {
     try {
-      const service = await Service.aggregate([
-          {
-            $group: {
-              _id: {
-                month: {$month: '$createdAt'}
-              },
-              totalPrice: {
-                $sum: '$cost'
-              },
-              name: {$addToSet: '$name'}
-            }
-          }
-        ]
-      );
+      const service = await Service.find({
+        createdAt: {
+          $gte: new Date ('2022-04-04'),
+          $lte: new Date ('2022-04-06')
+        },
+        });
       return res.json({ service });
     } catch (e) {
       return res.json({ error: e.message });
