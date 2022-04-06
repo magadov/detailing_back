@@ -1,34 +1,33 @@
 const mongoose = require("mongoose");
 
 const carSchema = mongoose.Schema({
-  VIN: {
+  vin: {
     type: String,
     required: true,
   },
   vinData: [
     {
       mark: {
-        type: String
+        type: String,
       },
       model: {
-        type: String
+        type: String,
       },
       color: {
-        type: String
+        type: String,
       },
       yearOfRelease: {
         type: Date
       }
-
     },
   ],
   upgradeDate: {
     type: Date,
     default: null,
-    client: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Client",
-    },
+  },
+  client: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Client",
   },
 });
 
