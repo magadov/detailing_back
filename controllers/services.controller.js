@@ -45,7 +45,7 @@ module.exports.servicesController = {
           car,
           client,
           cost,
-          createdAt
+          createdAt,
         },
         { new: true }
       );
@@ -57,32 +57,20 @@ module.exports.servicesController = {
   getServicesByDate: async (req, res) => {
     try {
       const service = await Service.find({
-        createdAt: {
-          $gte: new Date ('2022-04-04'),
-          $lte: new Date ('2022-04-06')
-        },
-        });
+        $group: {
+          createdAt: {
+            $gte: new Date("2022-04-02"),
+            $lte: new Date("2022-04-06"),
+          },
+          totalCost: {
+            $sum: '$cost'
+          }
+        }
+      });
       return res.json({ service });
     } catch (e) {
       return res.json({ error: e.message });
     }
   },
-  getSelectionByDate: async (req, res) => {
-    try {
-        const service = await Service.aggregate([
-            {
-              $match: {
-                createdDate: {
-                  $gte: ISODate("2022-04"),
-                  $lt: ISODate('2022-04')
-                }
-              }
-            }
-          ]
-        );
-      return res.json({ service });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
+
 };
