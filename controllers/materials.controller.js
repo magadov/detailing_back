@@ -49,21 +49,36 @@ module.exports.materialsController = {
       res.json("error" + e.toString());
     }
   },
-
+  consumptionMaterial: async (req, res) => {
+    const { volume } = req.body;
+    try {
+      const decrement = await Material.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: { direction: { volume, date: new Date() } },
+          $inc: { left: -volume },
+        },
+        { new: true }
+      );
+      res.json(decrement)
+    } catch (e) {
+      res.json("error" + e.toString());
+    }
+  },
   getAllMaterialsForThePeriod: async (req, res) => {
     try {
       const getForThePeriod = await Material.aggregate([
         {
           $group: {
-            _id: {month: {$month: '$date'}},
-          totalPrice: {
-              $sum: '$price'
-          },
+            _id: { month: { $month: "$date" } },
+            totalPrice: {
+              $sum: "$price",
+            },
             name: {
-              $addToSet: '$name'
-            }
-          }
-        }
+              $addToSet: "$name",
+            },
+          },
+        },
       ]);
       res.json(getForThePeriod);
     } catch (e) {
