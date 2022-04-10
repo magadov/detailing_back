@@ -67,19 +67,28 @@ module.exports.materialsController = {
   },
   getAllMaterialsForThePeriod: async (req, res) => {
     try {
-      const getForThePeriod = await Material.aggregate([
-        {
-          $group: {
-            _id: { month: { $month: "$date" } },
-            totalPrice: {
-              $sum: "$price",
+
+      const getForThePeriod = await Material.find(
+          {
+            createdAt: {
+              $gte: new Date("2022-04-01T00:00:33"),
+              $lte: new Date("2022-04-07T16:00:00")
             },
-            name: {
-              $addToSet: "$name",
-            },
-          },
-        },
-      ]);
+
+          }
+      );
+
+      // [
+      //   {
+      //     $group: {
+      //       _id: {month: {$month: "$createdAt"}},
+      //       totalPrice: {
+      //         $sum: '$price'
+      //       }
+      //     }
+      //   },
+      // ]
+
       res.json(getForThePeriod);
     } catch (e) {
       res.json("error" + e.toString());
