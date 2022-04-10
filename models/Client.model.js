@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
 
-const clientSchema = mongoose.Schema({
-  firstName: {
-    type: String,
+const clientSchema = mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
   },
-  lastName: {
-    type: String,
-  },
-  phone: {
-    type: Number,
-  },
-});
+  { timestamps: true }
+);
 
 const Client = mongoose.model("Client", clientSchema);
 

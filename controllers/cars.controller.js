@@ -1,54 +1,88 @@
 const Car = require("../models/Car.model");
+const axios = require("axios").default;
 
 module.exports.carsController = {
-  addCar: async(req, res) => {
+  addCar: async (req, res) => {
     const { vin, vinData, client, upgradeDate } = req.body;
-    try{
+    try {
       const car = await Car.create({
         vin,
         vinData,
         client,
-        upgradeDate
+        upgradeDate,
       });
-      res.json(car)
-    }catch (e) {
-      res.json({error: e.message})
+      return res.json({ car });
+    } catch (e) {
+      return res.json({ error: e.message });
     }
   },
 
   getCar: async (req, res) => {
-    try{
+    try {
       const car = await Car.find();
-      res.json(car)
-    }catch (e) {
-      res.json({error: e.message})
+
+      return res.json({ car });
+    } catch (e) {
+      return res.json({ error: e.message });
     }
   },
-  deleteCar: async(req, res) => {
-    try{
-      await Car.findByIdAndDelete(req.params.id)
-      res.json('Машина успешно удалена')
-    }catch (e) {
-      res.json({error: e.message})
+  deleteCar: async (req, res) => {
+    const { id } = req.params;
+    try {
+      await Car.findByIdAndDelete(id);
+      return res.json("Машина успешно удалена");
+    } catch (e) {
+      return res.json({ error: e.message });
     }
-},
+  },
 
   updateCar: async (req, res) => {
-      const { vin, vinData, client, upgradeDate } = req.body;
-      try{
-        await Car.findByIdAndUpdate(
-          req.params.id,
+    const { vin, vinData, client, upgradeDate } = req.body;
+    const { id } = req.params;
+    try {
+      await Car.findByIdAndUpdate(
+          id,
           {
             vin,
             vinData,
             client,
-            upgradeDate
+            upgradeDate,
           },
           { new: true }
-        );
-        res.json("Редактировано")
-      }catch (e) {
-        res.json({error: e.message})
-      }
-  }
-}
+      );
+      return res.json({ message: "Редактировано" });
+    } catch (e) {
+      return res.json({ error: e.message });
+    }
+  },
+  addVinData: async (req, res) => {
+    const { vin } = req.body;
+    try {
+      const response = await axios.get(`https://jsonplaceholder.typicode.com/todos`);
+
+      const carVin = await Car.findByIdAndUpdate(
+          req.user.id,
+          {
+            $push: { vinData: req.body}
+          },
+          { new: true }
+      );
+      return res.json({ carVin });
+    } catch (e) {
+      return res.json({ error: e.toString() });
+    }
+  },
+  getVin: async (req, res) => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+
+      const vinData = response.data.map((ser) => {
+        return ser.body;
+      });
+      return res.json(response.data[0].body);
+      // return res.json(vinData);
+    } catch (e) {
+      return res.json({ error: e.toString() });
+    }
+  },
+};
