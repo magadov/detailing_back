@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
@@ -20,7 +21,10 @@
     "multer": "^1.4.4"
   },
   "eslintConfig": {
-    "extends": ["airbnb/base", "prettier"],
+    "extends": [
+      "airbnb/base",
+      "prettier"
+    ],
     "rules": {
       "no-console": "off",
       "no-unused-vars": "warn"
