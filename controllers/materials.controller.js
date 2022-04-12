@@ -60,7 +60,7 @@ module.exports.materialsController = {
         },
         { new: true }
       );
-      res.json(decrement)
+      res.json(decrement);
     } catch (e) {
       res.json("error" + e.toString());
     }
@@ -68,23 +68,22 @@ module.exports.materialsController = {
   getAllMaterialsForThePeriod: async (req, res) => {
     try {
       const material = await Material.find({
-
         createdAt: {
           $gte: new Date("2022-02-02"),
           $lte: new Date("2022-05-02"),
         },
       });
       const totalPrice = material.reduce((total, material) => {
-        return total + material.price
+        return total + material.price;
       }, 0);
 
       const document = {
         material,
-        totalPrice
-      }
+        totalPrice,
+      };
       return res.json({ document });
     } catch (e) {
       return res.json({ error: e.message });
     }
-  }
-  };
+  },
+};
