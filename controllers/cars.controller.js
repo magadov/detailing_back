@@ -2,21 +2,6 @@ const Car = require("../models/Car.model");
 const axios = require("axios").default;
 
 module.exports.carsController = {
-  addCar: async (req, res) => {
-    const { vin, vinData, client, upgradeDate } = req.body;
-    try {
-      const car = await Car.create({
-        vin,
-        vinData,
-        client,
-        upgradeDate,
-      });
-      return res.json({ car });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
-
   getCar: async (req, res) => {
     try {
       const car = await Car.find();
@@ -52,6 +37,29 @@ module.exports.carsController = {
       return res.json({ message: "Редактировано" });
     } catch (e) {
       return res.json({ error: e.message });
+    }
+  },
+  addCar: async (req, res) => {
+    const { vin } = req.body;
+    const { id } = req.params; // client id
+    try {
+      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
+
+      const carData = {
+        mark: response.data[0].body,
+        model: response.data[0].body,
+      };
+
+      const carVin = await Car.create(
+        id,
+        {
+          vinData: carData
+        },
+        { new: true }
+      );
+      return res.json({ carVin });
+    } catch (e) {
+      return res.json({ error: e.toString() });
     }
   },
 };
