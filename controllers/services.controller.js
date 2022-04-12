@@ -1,5 +1,4 @@
 const Service = require("../models/Service.model");
-const jwt = require("jsonwebtoken");
 
 module.exports.servicesController = {
   addServices: async (req, res) => {
@@ -56,18 +55,22 @@ module.exports.servicesController = {
   },
   getServicesByDate: async (req, res) => {
     try {
-      const service = await Service.find({
-        $group: {
-          createdAt: {
-            $gte: new Date("2022-04-02"),
-            $lte: new Date("2022-04-06"),
-          },
-          totalCost: {
-            $sum: '$cost'
-          }
-        }
+      const services = await Service.find({
+
+        createdAt: {
+          $gte: new Date("2022-02-02"),
+          $lte: new Date("2022-05-02"),
+        },
       });
-      return res.json({ service });
+      const sumCost = services.reduce((total, service) => {
+        return total + service.cost
+      }, 0);
+
+      const result = {
+        services,
+        sumCost
+      }
+      return res.json({ result });
     } catch (e) {
       return res.json({ error: e.message });
     }
