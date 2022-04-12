@@ -4,24 +4,22 @@ const carSchema = mongoose.Schema(
   {
     vin: {
       type: String,
-      required: true,
     },
-    vinData: [
-      {
-        mark: {
-          type: String,
-        },
-        model: {
-          type: String,
-        },
-        color: {
-          type: String,
-        },
-        yearOfRelease: {
-          type: Date,
-        },
+    vinData: {
+      mark: {
+        type: String,
       },
-    ],
+      model: {
+        type: String,
+      },
+      color: {
+        type: String,
+      },
+      yearOfRelease: {
+        type: Date,
+      },
+    },
+
     upgradeDate: {
       type: Date,
       default: null,

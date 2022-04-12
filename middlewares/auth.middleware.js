@@ -13,6 +13,7 @@ module.exports = async (req, res, next) => {
   try {
     req.user = await jwt.verify(token, process.env.SECRET_JWT_KEY);
 
+
     if (!req.user) {
       return res.status(401).json("Неверный токен");
     }
