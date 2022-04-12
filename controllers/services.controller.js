@@ -56,24 +56,22 @@ module.exports.servicesController = {
   getServicesByDate: async (req, res) => {
     try {
       const services = await Service.find({
-
         createdAt: {
           $gte: new Date("2022-02-02"),
           $lte: new Date("2022-05-02"),
         },
       });
       const sumCost = services.reduce((total, service) => {
-        return total + service.cost
+        return total + service.cost;
       }, 0);
 
       const result = {
         services,
-        sumCost
-      }
+        sumCost,
+      };
       return res.json({ result });
     } catch (e) {
       return res.json({ error: e.message });
     }
   },
-
 };
