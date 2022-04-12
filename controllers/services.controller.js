@@ -1,5 +1,4 @@
 const Service = require("../models/Service.model");
-const jwt = require("jsonwebtoken");
 
 module.exports.servicesController = {
   addServices: async (req, res) => {
@@ -35,22 +34,46 @@ module.exports.servicesController = {
     }
   },
   updateServices: async (req, res) => {
-    const { name, car, client, cost } = req.body;
-    const { id } = req.params.id;
+    const { name, car, client, cost, createdAt } = req.body;
+    const { id } = req.params;
     try {
-      await Service.findByIdAndUpdate(
+      const service = await Service.findByIdAndUpdate(
         id,
         {
           name,
           car,
           client,
           cost,
+          createdAt,
         },
         { new: true }
       );
-      return res.json({ message: "Услуга редактирована успешно." });
+      return res.json({ service });
     } catch (e) {
       return res.json({ error: e.message });
     }
   },
+  getServicesByDate: async (req, res) => {
+    try {
+      const services = await Service.find({
+
+        createdAt: {
+          $gte: new Date("2022-02-02"),
+          $lte: new Date("2022-05-02"),
+        },
+      });
+      const sumCost = services.reduce((total, service) => {
+        return total + service.cost
+      }, 0);
+
+      const result = {
+        services,
+        sumCost
+      }
+      return res.json({ result });
+    } catch (e) {
+      return res.json({ error: e.message });
+    }
+  },
+
 };
