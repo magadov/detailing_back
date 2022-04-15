@@ -19,7 +19,6 @@ const carSchema = mongoose.Schema(
         type: Date,
       },
     },
-
     upgradeDate: {
       type: Date,
       default: null,

@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", authMiddleware, carsController.getCar);
 router.delete("/:id", authMiddleware, carsController.deleteCar);
-router.patch("/add/car/:id", authMiddleware, carsController.addCar);
+router.post("/add/car/:id", authMiddleware, carsController.addCar);
 router.patch("/update", authMiddleware, carsController.updateCar);
 
 module.exports = router;
