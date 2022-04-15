@@ -41,7 +41,7 @@ module.exports.carsController = {
   },
   addCar: async (req, res) => {
     const { vin } = req.body;
-    const { id } = req.params; // client id
+    const { id } = req.params;
     try {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
 
@@ -50,13 +50,11 @@ module.exports.carsController = {
         model: response.data[0].body,
       };
 
-      const carVin = await Car.create(
-        id,
-        {
-          vinData: carData
-        },
-        { new: true }
-      );
+      const carVin = await Car.create({
+          vin: vin,
+          vinData: carData,
+          client: id
+        });
       return res.json({ carVin });
     } catch (e) {
       return res.json({ error: e.toString() });
