@@ -20,7 +20,6 @@ module.exports.carsController = {
       return res.json({ error: e.message });
     }
   },
-
   updateCar: async (req, res) => {
     const { vin, vinData, client, upgradeDate } = req.body;
     const { id } = req.params;
