@@ -41,7 +41,7 @@ module.exports.carsController = {
   },
   addCar: async (req, res) => {
     const { vin } = req.body;
-    const { id } = req.params; // client id
+    const { id } = req.params;
     try {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
 
