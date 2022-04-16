@@ -7,9 +7,9 @@ module.exports.clientsController = {
     try {
       const client = await Client.find();
 
-      return res.json({ client });
+      return res.status(200).json({ client });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(401).json({ error: e.toString() });
     }
   },
   deleteClient: async (req, res) => {
@@ -17,18 +17,25 @@ module.exports.clientsController = {
     try {
       const deleting = await Client.findByIdAndRemove(id);
 
-      return res.json({ deleting });
+      return res.status(200).json({ deleting });
     } catch (e) {
-      return res.json({ error: e.toString() });
+      return res.status(401).json({ error: e.toString() });
     }
   },
   addClient: async (req, res) => {
-    const { vin } = req.body
+    const { vin } = req.body;
     const { firstName, lastName, phone } = req.body;
     try {
       const client = await Client.create({ firstName, lastName, phone });
 
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
+      const response = await axios({
+        method: "GET",
+        url: `https://jsonplaceholder.typicode.com/posts`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "", // здесь будет api ключ
+        },
+      });
 
       const carData = {
         mark: response.data[0].body,
@@ -42,12 +49,12 @@ module.exports.clientsController = {
       });
       const result = {
         client,
-        carVin
-      }
+        carVin,
+      };
 
-      return res.json({ result });
+      return res.status(200).json({ result });
     } catch (e) {
-      return res.json({ error: e.toString() });
+      return res.status(401).json({ error: e.toString() });
     }
   },
 };
