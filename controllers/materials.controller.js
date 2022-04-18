@@ -13,15 +13,7 @@ module.exports.materialsController = {
       });
       res.json(material);
     } catch (e) {
-      res.json(e.message);
-    }
-  },
-  getAllMaterials: async (req, res) => {
-    try {
-      const materials = await Material.find();
-      res.json(materials);
-    } catch (e) {
-      res.json(e.message);
+      res.status(400).json("error" + e.message);
     }
   },
   removeMaterial: async (req, res) => {
@@ -30,14 +22,15 @@ module.exports.materialsController = {
       const removeMaterial = await Material.findByIdAndDelete(id);
       res.json(removeMaterial);
     } catch (e) {
-      res.json(e.message);
+      res.status(400).json("error" + e.toString());
     }
   },
   addingMaterial: async (req, res) => {
+    const { id } = req.params;
     const { volume } = req.body;
     try {
       const increment = await Material.findByIdAndUpdate(
-        req.params.id,
+        id,
         {
           $push: { direction: { volume, date: new Date() } },
           $inc: { left: +volume },
@@ -46,7 +39,7 @@ module.exports.materialsController = {
       );
       res.json(increment);
     } catch (e) {
-      res.json("error" + e.toString());
+      res.status(400).json("error" + e.toString());
     }
   },
   consumptionMaterial: async (req, res) => {
@@ -62,17 +55,20 @@ module.exports.materialsController = {
       );
       res.json(decrement);
     } catch (e) {
-      res.json("error" + e.toString());
+      res.status(400).json("error" + e.toString());
     }
   },
   getAllMaterialsForThePeriod: async (req, res) => {
+    const cond = {};
     try {
-      const material = await Material.find({
-        createdAt: {
-          $gte: new Date("2022-02-02"),
-          $lte: new Date("2022-05-02"),
-        },
-      });
+      if (req.query.periodStart) {
+        cond.direction.date = {
+          $gte: new Date(req.query.periodStart),
+          $te: new Date(req.query.periodEnd),
+        };
+      }
+      const material = await Material.find(cond);
+
       const totalPrice = material.reduce((total, material) => {
         return total + material.price;
       }, 0);
@@ -81,9 +77,9 @@ module.exports.materialsController = {
         material,
         totalPrice,
       };
-      return res.json({ document });
+      res.json({ document });
     } catch (e) {
-      return res.json({ error: e.message });
+      res.status(400).json({ error: e.message });
     }
   },
 };
