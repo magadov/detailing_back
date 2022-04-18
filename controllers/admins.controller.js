@@ -9,7 +9,7 @@ module.exports.adminsController = {
   //     const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS));
   //     const admin = await Admin.create({login, password: hash})
   //
-  //     return res.json({admin})
+  //     return res.status(200).json({admin})
   //   }catch (e) {
   //     return res.status(400).json({error: 'Ошибка при регистрации: ' + e.toString()})
   //   }
