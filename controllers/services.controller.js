@@ -13,7 +13,7 @@ module.exports.servicesController = {
 
       return res.json({ service });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(500).json({ error: e.message });
     }
   },
   getServices: async (req, res) => {
@@ -48,7 +48,7 @@ module.exports.servicesController = {
       await Service.findByIdAndDelete(id);
       return res.json({ message: "Услуга успешно удалена" });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(500).json({ error: e.message });
     }
   },
   updateServices: async (req, res) => {
@@ -68,28 +68,7 @@ module.exports.servicesController = {
       );
       return res.json({ service });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(500).json({ error: e.message });
     }
   },
-  // getServicesByDate: async (req, res) => {
-  //   try {
-  //     const services = await Service.find({
-  //       createdAt: {
-  //         $gte: new Date("2022-02-02"),
-  //         $lte: new Date("2022-05-02"),
-  //       },
-  //     });
-  //     const sumCost = services.reduce((total, service) => {
-  //       return total + service.cost;
-  //     }, 0);
-  //
-  //     const result = {
-  //       services,
-  //       sumCost,
-  //     };
-  //     return res.json({ result });
-  //   } catch (e) {
-  //     return res.json({ error: e.message });
-  //   }
-  // },
 };
