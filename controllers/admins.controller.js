@@ -14,15 +14,6 @@ module.exports.adminsController = {
   //     return res.status(400).json({error: 'Ошибка при регистрации: ' + e.toString()})
   //   }
   // },
-  getAdmin: async (req, res) => {
-    try {
-      const admin = await Admin.find();
-
-      return res.json({admin});
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
   login: async (req, res) => {
     const { login, password } = req.body;
     try {
@@ -44,19 +35,9 @@ module.exports.adminsController = {
       const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
         expiresIn: "24d",
       });
-      res.json({ token });
+      return res.status(200).json({ token });
     } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
-  removeAdmin: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deleted = await Admin.findByIdAndRemove(id);
-
-      return res.json({deleted});
-    } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(401).json({ error: e.toString() });
     }
   },
 };
