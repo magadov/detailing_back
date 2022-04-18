@@ -64,7 +64,7 @@ module.exports.materialsController = {
       if (req.query.periodStart) {
         cond.direction.date = {
           $gte: new Date(req.query.periodStart),
-          $te: new Date(req.query.periodEnd),
+          $te: new Date(req.query.periodEnd ) ,
         };
       }
       const material = await Material.find(cond);
