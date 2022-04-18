@@ -3,10 +3,9 @@ const { servicesController } = require("../controllers/services.controller");
 
 const router = Router();
 
-router.post("/", servicesController.addServices);
+router.get("/byDate", servicesController.getServices);
 router.get("/", servicesController.getServices);
 router.delete("/:id", servicesController.removeServices);
 router.patch("/:id", servicesController.updateServices);
-router.get("/byDate", servicesController.getServices);
 
 module.exports = router;

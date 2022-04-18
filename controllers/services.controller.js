@@ -29,14 +29,17 @@ module.exports.servicesController = {
 
       const services = await Service.find(cond);
 
-      const sumCost = services.reduce((total, service) => total + service.cost, 0);
+      const sumCost = services.reduce(
+        (total, service) => total + service.cost,
+        0
+      );
 
       return res.json({
         services,
         sumCost,
       });
     } catch (e) {
-      res.status(500).json({error: e.toString()});
+      res.status(500).json({ error: e.toString() });
     }
   },
   removeServices: async (req, res) => {
