@@ -13,7 +13,7 @@ module.exports.materialsController = {
       });
       res.json(material);
     } catch (e) {
-      res.status(400).json("error" + e.message);
+      res.status(500).json("error" + e.message);
     }
   },
   removeMaterial: async (req, res) => {
@@ -22,7 +22,7 @@ module.exports.materialsController = {
       const removeMaterial = await Material.findByIdAndDelete(id);
       res.json(removeMaterial);
     } catch (e) {
-      res.status(400).json("error" + e.toString());
+      res.status(500).json("error" + e.toString());
     }
   },
   addingMaterial: async (req, res) => {
@@ -39,7 +39,7 @@ module.exports.materialsController = {
       );
       res.json(increment);
     } catch (e) {
-      res.status(400).json("error" + e.toString());
+      res.status(500).json("error" + e.toString());
     }
   },
   consumptionMaterial: async (req, res) => {
@@ -55,7 +55,7 @@ module.exports.materialsController = {
       );
       res.json(decrement);
     } catch (e) {
-      res.status(400).json("error" + e.toString());
+      res.status(500).json("error" + e.toString());
     }
   },
   getAllMaterialsForThePeriod: async (req, res) => {
@@ -79,7 +79,7 @@ module.exports.materialsController = {
       };
       res.json({ document });
     } catch (e) {
-      res.status(400).json({ error: e.message });
+      res.status(500).json({ error: e.message });
     }
   },
 };
