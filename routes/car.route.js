@@ -4,10 +4,11 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 const router = Router();
 
-router.get("/", authMiddleware, carsController.getCar);
-
+router.get("/", carsController.getCar);
+router.delete("/:id", carsController.deleteCar);
+router.post("/:id", carsController.addCar);
+router.patch("/", carsController.updateCar);
 
 module.exports = router;
-
 
 

@@ -1,38 +1,24 @@
 const Car = require("../models/Car.model");
-const axios = require("axios").default;
+const { default: axios } = require("axios");
 
 module.exports.carsController = {
-  addCar: async (req, res) => {
-    const { vin, vinData, client, upgradeDate } = req.body;
-    try {
-      const car = await Car.create({
-        vin,
-        vinData,
-        client,
-        upgradeDate,
-      });
-      return res.json({ car });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
-
   getCar: async (req, res) => {
     try {
       const car = await Car.find();
 
-      return res.json({ car });
+      return res.status(200).json({ car });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(401).json({ error: e.toString() });
     }
   },
   deleteCar: async (req, res) => {
     const { id } = req.params;
     try {
       await Car.findByIdAndDelete(id);
-      return res.json("Машина успешно удалена");
+
+      return res.status(200).json("Машина успешно удалена");
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(401).json({ error: e.toString() });
     }
   },
   updateCar: async (req, res) => {
@@ -49,9 +35,38 @@ module.exports.carsController = {
         },
         { new: true }
       );
-      return res.json({ message: "Редактировано" });
+      return res.status(200).json({ message: "Редактировано" });
     } catch (e) {
-      return res.json({ error: e.message });
+      return res.status(401).json({ error: e.toString() });
+    }
+  },
+  addCar: async (req, res) => {
+    const { vin } = req.body;
+    const { id } = req.params;
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `https://jsonplaceholder.typicode.com/posts`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "", // здесь будет api ключ
+        },
+      });
+
+      const carData = {
+        mark: response.data[0].body,
+        model: response.data[0].body,
+      };
+
+      const carVin = await Car.create({
+        vin: vin,
+        vinData: carData,
+        client: id,
+      });
+
+      return res.status(200).json({ carVin });
+    } catch (e) {
+      return res.status(401).json({ error: e.toString() });
     }
   },
 };

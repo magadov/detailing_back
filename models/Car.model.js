@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
-const carSchema = mongoose.Schema({
-  vin: {
-    type: String,
-    required: true,
-  },
-  vinData: [
-    {
+const carSchema = mongoose.Schema(
+  {
+    vin: {
+      type: String,
+    },
+    vinData: {
       mark: {
         type: String,
       },
@@ -20,16 +19,17 @@ const carSchema = mongoose.Schema({
         type: Date,
       },
     },
-  ],
-  upgradeDate: {
-    type: Date,
-    default: null,
+    upgradeDate: {
+      type: Date,
+      default: null,
+    },
+    client: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Client",
+    },
   },
-  client: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Client",
-  },
-});
+  { timestamps: true }
+);
 
 const Car = mongoose.model("Car", carSchema);
 module.exports = Car;
