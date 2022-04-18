@@ -17,11 +17,26 @@ module.exports.servicesController = {
     }
   },
   getServices: async (req, res) => {
+    const cond = {};
+
     try {
-      const service = await Service.find();
-      return res.json({ service });
+      if (req.query.periodStart) {
+        cond.createdAt = {
+          $gte: new Date(req.query.periodStart),
+          $te: new Date(req.query.periodEnd),
+        };
+      }
+
+      const services = await Service.find(cond);
+
+      const sumCost = services.reduce((total, service) => total + service.cost, 0);
+
+      return res.json({
+        services,
+        sumCost,
+      });
     } catch (e) {
-      return res.json({ error: e.message });
+      res.status(500).json({error: e.toString()});
     }
   },
   removeServices: async (req, res) => {
@@ -53,25 +68,25 @@ module.exports.servicesController = {
       return res.json({ error: e.message });
     }
   },
-  getServicesByDate: async (req, res) => {
-    try {
-      const services = await Service.find({
-        createdAt: {
-          $gte: new Date("2022-02-02"),
-          $lte: new Date("2022-05-02"),
-        },
-      });
-      const sumCost = services.reduce((total, service) => {
-        return total + service.cost;
-      }, 0);
-
-      const result = {
-        services,
-        sumCost,
-      };
-      return res.json({ result });
-    } catch (e) {
-      return res.json({ error: e.message });
-    }
-  },
+  // getServicesByDate: async (req, res) => {
+  //   try {
+  //     const services = await Service.find({
+  //       createdAt: {
+  //         $gte: new Date("2022-02-02"),
+  //         $lte: new Date("2022-05-02"),
+  //       },
+  //     });
+  //     const sumCost = services.reduce((total, service) => {
+  //       return total + service.cost;
+  //     }, 0);
+  //
+  //     const result = {
+  //       services,
+  //       sumCost,
+  //     };
+  //     return res.json({ result });
+  //   } catch (e) {
+  //     return res.json({ error: e.message });
+  //   }
+  // },
 };
