@@ -9,9 +9,9 @@ module.exports.adminsController = {
   //     const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS));
   //     const admin = await Admin.create({login, password: hash})
   //
-  //     return res.status(200).json({admin})
+  //     return res.json({admin})
   //   }catch (e) {
-  //     return res.status(400).json({error: 'Ошибка при регистрации: ' + e.toString()})
+  //     return res.status(500).json({error: 'Ошибка при регистрации: ' + e.toString()})
   //   }
   // },
   login: async (req, res) => {
@@ -35,7 +35,7 @@ module.exports.adminsController = {
       const token = await jwt.sign(payload, process.env.SECRET_JWT_KEY, {
         expiresIn: "24d",
       });
-      return res.status(200).json({ token });
+      return res.json({ token });
     } catch (e) {
       return res.status(401).json({ error: e.toString() });
     }
