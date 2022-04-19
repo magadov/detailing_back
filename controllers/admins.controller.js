@@ -3,17 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports.adminsController = {
-  // addAdmin: async (req, res) => {
-  //   const { login, password } = req.body;
-  //   try {
-  //     const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS));
-  //     const admin = await Admin.create({login, password: hash})
-  //
-  //     return res.json({admin})
-  //   }catch (e) {
-  //     return res.status(500).json({error: 'Ошибка при регистрации: ' + e.toString()})
-  //   }
-  // },
   login: async (req, res) => {
     const { login, password } = req.body;
     try {

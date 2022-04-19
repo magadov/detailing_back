@@ -2,11 +2,11 @@ const Car = require("../models/Car.model");
 const { default: axios } = require("axios");
 
 module.exports.carsController = {
-  getCar: async (req, res) => {
+  getCars: async (req, res) => {
     try {
-      const car = await Car.find();
+      const cars = await Car.find();
 
-      return res.json({ car });
+      return res.json({ cars });
     } catch (e) {
       return res.status(500).json({ error: e.toString() });
     }
