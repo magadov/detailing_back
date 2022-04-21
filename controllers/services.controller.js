@@ -27,17 +27,13 @@ module.exports.servicesController = {
         };
       }
 
-      const services = await Service.find(cond);
+      const serv = await Service.find(cond);
 
-      const sumCost = services.reduce(
+      const sumCost = await serv.reduce(
         (total, service) => total + service.cost,
         0
       );
-
-      return res.json({
-        services,
-        sumCost,
-      });
+      return res.json({serv, sumCost});
     } catch (e) {
       res.status(500).json({ error: e.toString() });
     }
