@@ -6,9 +6,9 @@ module.exports.carsController = {
     try {
       const car = await Car.find();
 
-      return res.status(200).json({ car });
+      return res.json({ car });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
   deleteCar: async (req, res) => {
@@ -16,9 +16,9 @@ module.exports.carsController = {
     try {
       await Car.findByIdAndDelete(id);
 
-      return res.status(200).json("Машина успешно удалена");
+      return res.json("Машина успешно удалена");
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
   updateCar: async (req, res) => {
@@ -35,9 +35,9 @@ module.exports.carsController = {
         },
         { new: true }
       );
-      return res.status(200).json({ message: "Редактировано" });
+      return res.json({ message: "Редактировано" });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
   addCar: async (req, res) => {
@@ -64,9 +64,9 @@ module.exports.carsController = {
         client: id,
       });
 
-      return res.status(200).json({ carVin });
+      return res.json({ carVin });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
 };
