@@ -7,9 +7,9 @@ module.exports.clientsController = {
     try {
       const client = await Client.find();
 
-      return res.status(200).json({ client });
+      return res.json({ client });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
   deleteClient: async (req, res) => {
@@ -17,9 +17,9 @@ module.exports.clientsController = {
     try {
       const deleting = await Client.findByIdAndRemove(id);
 
-      return res.status(200).json({ deleting });
+      return res.json({ deleting });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
   addClient: async (req, res) => {
@@ -52,9 +52,9 @@ module.exports.clientsController = {
         carVin,
       };
 
-      return res.status(200).json({ result });
+      return res.json({ result });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res.status(500).json({ error: e.toString() });
     }
   },
 };
