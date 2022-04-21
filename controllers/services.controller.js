@@ -33,7 +33,7 @@ module.exports.servicesController = {
         (total, service) => total + service.cost,
         0
       );
-      return res.json({serv, sumCost});
+      return res.json({ serv, sumCost });
     } catch (e) {
       res.status(500).json({ error: e.toString() });
     }
