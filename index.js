@@ -6,9 +6,10 @@ const mongoose = require("mongoose");
 const chalk = require("chalk");
 require("dotenv").config();
 const port = process.env.PORT;
+const mongo = process.env.MONGO;
 
-const url =
-  "mongodb+srv://usman:Usman1994@cluster0.rlomm.mongodb.net/autoservice";
+// const url =
+//   "mongodb+srv://usman:Usman1994@cluster0.rlomm.mongodb.net/autoservice";
 
 const app = express();
 
@@ -22,10 +23,7 @@ app.use(require("./routes"));
 
 const connectAndStartServer = async () => {
   try {
-    await mongoose.connect(url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongo);
 
     app.listen(port, () => {
       console.log(chalk.blue(`Успешно соединились. Порт ${port}`));
