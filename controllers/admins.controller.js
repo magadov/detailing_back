@@ -9,12 +9,12 @@ module.exports.adminsController = {
       const candidate = await Admin.findOne({ login });
 
       if (!candidate) {
-        return res.status(401).json("Неверный логин");
+        return res.status(401).json({ error: "Неверный логин или пароль" });
       }
 
       const valid = await bcrypt.compare(password, candidate.password);
       if (!valid) {
-        return res.status(401).json("Неверный пароль");
+        return res.status(401).json({ error: "Неверный логин или пароль" });
       }
       const payload = {
         id: candidate._id,
@@ -26,7 +26,9 @@ module.exports.adminsController = {
       });
       return res.json({ token });
     } catch (e) {
-      return res.status(401).json({ error: e.toString() });
+      return res
+        .status(401)
+        .json({ error: "ошибка при авторизации" + e.toString() });
     }
   },
 };
