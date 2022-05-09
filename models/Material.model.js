@@ -7,8 +7,7 @@ const materialSchema = mongoose.Schema(
     },
     volumeType: {
       type: String,
-      enum: ["кг", "шт", "л"],
-      default: "шт",
+      default: null,
     },
     price: {
       type: Number,
@@ -21,6 +20,7 @@ const materialSchema = mongoose.Schema(
       {
         volume: {
           type: Number,
+          default: 0,
         },
         date: {
           type: Date,
@@ -30,7 +30,6 @@ const materialSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
 const Material = mongoose.model("Material", materialSchema);
 
 module.exports = Material;
