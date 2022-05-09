@@ -9,9 +9,11 @@ module.exports.servicesController = {
         car,
         client,
         cost,
-      });
+      })
 
-      return res.json({ service });
+      const result = await Service.findById(service.id).populate('car').populate('client')
+
+      return res.json({result});
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
@@ -27,22 +29,23 @@ module.exports.servicesController = {
         };
       }
 
-      const serv = await Service.find(cond);
+      const services = await Service.find(cond).populate('client').populate('car');
 
-      const sumCost = await serv.reduce(
+      const sumCost = await services.reduce(
         (total, service) => total + service.cost,
         0
       );
-      return res.json({ serv, sumCost });
+      return res.json({ services, sumCost });
     } catch (e) {
       res.status(500).json({ error: e.toString() });
     }
   },
+
   removeServices: async (req, res) => {
     const { id } = req.params;
     try {
-      await Service.findByIdAndDelete(id);
-      return res.json({ message: "Услуга успешно удалена" });
+     const service = await Service.findByIdAndDelete(id);
+      return res.json({service});
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }

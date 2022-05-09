@@ -5,9 +5,9 @@ const Car = require("../models/Car.model");
 module.exports.clientsController = {
   getClient: async (req, res) => {
     try {
-      const client = await Client.find();
+      const clients = await Client.find();
 
-      return res.json({ client });
+      return res.json({ clients });
     } catch (e) {
       return res.status(500).json({ error: e.toString() });
     }

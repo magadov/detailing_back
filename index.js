@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
-// app.use('/uploads', express.static(path.resolve(__dirname, 'uploads')));
 
 app.use(require("./routes"));
 
