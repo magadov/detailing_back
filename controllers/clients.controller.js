@@ -5,9 +5,9 @@ const Car = require("../models/Car.model");
 module.exports.clientsController = {
   getClient: async (req, res) => {
     try {
-      const client = await Client.find();
+      const clients = await Client.find();
 
-      return res.json({ client });
+      return res.json({ clients });
     } catch (e) {
       return res.status(500).json({ error: e.toString() });
     }
@@ -26,33 +26,28 @@ module.exports.clientsController = {
     const { vin } = req.body;
     const { firstName, lastName, phone } = req.body;
     try {
-      const client = await Client.create({ firstName, lastName, phone });
+      const clients = await Client.create({ firstName, lastName, phone });
 
       const response = await axios({
         method: "GET",
-        url: `https://jsonplaceholder.typicode.com/posts`,
+        url: `https://api-cloud.ru/api/vindecoder.php?type=vin&vin=${vin}&token=6bbec902a9d9fc6d2c3c2e2cc2cc525d`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "", // здесь будет api ключ
         },
       });
 
       const carData = {
-        mark: response.data[0].body,
-        model: response.data[0].title,
+        mark: response.data.Make.value,
+        model: response.data.Model.value,
       };
 
       const carVin = await Car.create({
         vin: vin,
-        vinData: { ...carData },
-        client: client._id,
+        vinData: carData,
+        client: clients._id,
       });
-      const result = {
-        client,
-        carVin,
-      };
 
-      return res.json({ result });
+      return res.json({ clients, carVin });
     } catch (e) {
       return res.status(500).json({ error: e.toString() });
     }
