@@ -11,37 +11,38 @@ module.exports.materialsController = {
         left,
         direction,
       });
-      res.json(material);
+      res.json({ material });
     } catch (e) {
-      res.status(500).json("error" + e.message);
+      res.status(500).json({ error: e.toString() });
     }
   },
   removeMaterial: async (req, res) => {
     const { id } = req.params;
     try {
-      const removeMaterial = await Material.findByIdAndDelete(id);
-      res.json(removeMaterial);
+      const remove = await Material.findByIdAndDelete(id);
+      res.json(remove);
     } catch (e) {
-      res.status(500).json("error" + e.toString());
+      res.status(500).json({ error: e.toString() });
     }
   },
-  addingMaterial: async (req, res) => {
+  admissionMaterial: async (req, res) => {
     const { id } = req.params;
     const { volume } = req.body;
     try {
-      const increment = await Material.findByIdAndUpdate(
+      await Material.findByIdAndUpdate(
         id,
         {
           $push: { direction: { volume, date: new Date() } },
           $inc: { left: +volume },
-        },
-        { new: true }
+        }
       );
-      res.json(increment);
+      const materials = await Material.find()
+      res.json({materials});
     } catch (e) {
-      res.status(500).json("error" + e.toString());
+      res.status(500).json({ error: e.toString() });
     }
   },
+
   consumptionMaterial: async (req, res) => {
     const { volume } = req.body;
     try {
@@ -55,7 +56,7 @@ module.exports.materialsController = {
       );
       res.json(decrement);
     } catch (e) {
-      res.status(500).json("error" + e.toString());
+      res.status(500).json({ error: e.toString() });
     }
   },
   getAllMaterialsForThePeriod: async (req, res) => {
@@ -64,22 +65,35 @@ module.exports.materialsController = {
       if (req.query.periodStart) {
         cond.direction.date = {
           $gte: new Date(req.query.periodStart),
-          $te: new Date(req.query.periodEnd ) ,
+          $te: new Date(req.query.periodEnd),
         };
       }
-      const material = await Material.find(cond);
+      const materials = await Material.find(cond);
 
-      const totalPrice = material.reduce((total, material) => {
-        return total + material.price;
+      const totalPrice = materials.reduce((total, material) => {
+        return total + materials.price;
       }, 0);
 
-      const document = {
-        material,
-        totalPrice,
-      };
-      res.json({ document });
+      res.json({ materials, totalPrice });
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({ error: e.toString() });
+    }
+  },
+  editMaterials: async (req, res) => {
+    const { name, price } = req.body;
+    const { id } = req.params;
+    try {
+      const materials = await Material.findByIdAndUpdate(
+        id,
+        {
+          name,
+          price,
+        },
+        { new: true }
+      );
+      res.status(200).json({ materials });
+    } catch (e) {
+      res.status(500).json({ error: e.toString() });
     }
   },
 };
