@@ -46,16 +46,15 @@ module.exports.carsController = {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://jsonplaceholder.typicode.com/posts`,
+        url: `https://api-cloud.ru/api/vindecoder.php?type=vin&vin=${vin}&token=6bbec902a9d9fc6d2c3c2e2cc2cc525d`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "", // здесь будет api ключ
         },
       });
 
       const carData = {
-        mark: response.data[0].body,
-        model: response.data[0].body,
+        mark: response.data.Make.value,
+        model: response.data.Model.value,
       };
 
       const carVin = await Car.create({
